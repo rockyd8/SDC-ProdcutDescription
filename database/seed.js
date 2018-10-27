@@ -111,8 +111,9 @@ const sampleDescriptions = [{"productName":"Dactylospora Lichen","productId":1,"
 
 
 const insertSampleDescriptions = function() {
-  Description.create(samplePosts())
-    .then(() => db.disconnect());
+  Description.create(sampleDescriptions)
+    .then(() => db.disconnect())
+    .catch(() => console.log("error seeding db"));
 };
 
 insertSampleDescriptions();
@@ -121,10 +122,3 @@ insertSampleDescriptions();
 
 
 
-//100 total
-//25 tents
-
-
-
-
-//25
