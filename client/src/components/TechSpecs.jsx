@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const TechSpecs = ({data}) => {
+const TechSpecs = ({data, handleClick}) => {
   return (
   <div>
   <button className="switch-view-button" onClick{() => {this.changeView("features")}} type="submit">Features</button><br/>

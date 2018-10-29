@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Features = ({data}) => {
+const Features = ({data, handleClick}) => {
   return (
   <div>
   <button className="switch-view-button" onClick{() => {this.changeView("techspecs")}} type="submit">TechSpecs</button><br/>
