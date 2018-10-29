@@ -35,15 +35,15 @@ class Productdescriptions extends React.Component {
   renderView() {
     const {view} = this,state;
     if(view === "features"){
-      return <Features />
+      return <Features handleClick={this.changeBlog.bind(this)}/>
     }else if (view === "techSpecs"){
-      return <TechSpecs />
+      return <TechSpecs handleClick={this.changeBlog.bind(this)}/>
     }
   }
 
   render() {
     return(
-      <div>
+      <div className="tabs">
       {this.renderView()}
       </div>
       )
