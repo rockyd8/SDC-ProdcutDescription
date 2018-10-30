@@ -6,7 +6,7 @@ const descriptionSchema = new mongoose.Schema({
   productName: String,
   productId: Number,
   features: [String],
-  techSpecs: [{type: String, description: String, measurement: Boolean}]
+  techSpecs: [{types: String, description: String, measurement: Boolean}]
 });
 
 const Description = mongoose.model('Description', descriptionSchema);
