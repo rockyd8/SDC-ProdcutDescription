@@ -10,47 +10,57 @@ class Productdescriptions extends React.Component {
   constructor() {
     super();
     this.state = {
-      view: "main",
+      view: "Features",
       descriptions: []
     }
   }
 
-  conponentDidMount(){
+  componentDidMount(){
     console.log("Mounted");
     $.get('/productdescriptions',(data) =>{
-      console.log(data);
-
+      console.log(data[0]);
       this.setState({
         descriptions: data
       })
     })
   }
 
-  changeView(tabs){
-    this.setState({
-      view:tabs
-    })
+  changeView(){
+    if(this.state.view === "Features"){
+      this.setState({
+        view:"TechSpecs"
+      })
+    } else{
+      this.setState({
+        view:"Features"
+      })
+    }
+    //this.conponentDidMount();
   }
 
   renderView() {
     const {view} = this.state;
-    if(view === "features"){
-      return <Features data={this.state.descriptions} handleClick={this.changeBlog.bind(this)}/>
-    }else if (view === "techSpecs"){
-      return <TechSpecs data={this.state.descriptions} handleClick={this.changeBlog.bind(this)}/>
+    if(view === "Features"){
+      return <Features data={this.state.descriptions}/>
+    }else if (view === "TechSpecs"){
+      return <TechSpecs data={this.state.descriptions}/>
     }
   }
 
   render() {
     return(
       <div className="tabs">
+      <button
+        onClick={() => this.changeView()}>
+        {this.state.view}
+      </button>
       {this.renderView()}
       </div>
-      )
+    );
   }
 }
 
 
 
-ReactDOM.render(<Productdescriptions />, document.getElementById('productDescriptions'));
+ReactDOM.render(< Productdescriptions />, document.getElementById('productDescriptions'));
 

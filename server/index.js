@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const getRepo = require('../helpers/github.js');
-const database = require('./database/index.js');
+//const = require('../database/.js');
+const database = require('../database/db.js');
 
 
 
@@ -21,7 +21,13 @@ app.listen(port, function() {
 
 
 app.get('/productdescriptions', function (req, res) {
-
-
-  red.end();
+  console.log("GET REQUEST for product descriptions");
+  database.find({}, (err, data) => {
+    if(err){
+      console.log("ERROR:", err);
+    }else{
+      res.status(200).send(data);
+    }
+  });
+  //red.end();
 });

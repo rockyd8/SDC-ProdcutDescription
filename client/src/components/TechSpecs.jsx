@@ -4,7 +4,7 @@ import React from 'react';
 const TechSpecs = ({data, handleClick}) => {
   return (
   <div>
-  <button className="switch-view-button" onClick{() => {this.changeView("features")}} type="submit">Features</button><br/>
+
   <div className="features">
    {data.map(techSpec => <TechSpec techSpec={techSpec} />)}
   </div>
@@ -15,8 +15,9 @@ const TechSpecs = ({data, handleClick}) => {
 const TechSpec= ({techSpec}) =>(
   <div className="feed">
     <ul>
-      <li className="feature">
-      {techSpec}
+      <li className="techSpec">
+      {techSpec.techSpecs[0].types}:{techSpec.techSpecs[0].description}
+      {console.log(techSpec.techSpecs[0].types)}
       </li>
     </ul>
   </div>
@@ -24,3 +25,5 @@ const TechSpec= ({techSpec}) =>(
 
 export default TechSpecs;
 
+// onClick{() => {this.changeView("features")}}
+//<button className="switch-view-button" type="submit">Features</button><br/>

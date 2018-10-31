@@ -4,7 +4,7 @@ import React from 'react';
 const Features = ({data, handleClick}) => {
   return (
   <div>
-  <button className="switch-view-button" onClick{() => {this.changeView("techspecs")}} type="submit">TechSpecs</button><br/>
+
   <div className="features">
    {data.map(feature => <Feature feature={feature} />)}
   </div>
@@ -16,7 +16,8 @@ const Feature= ({feature}) =>(
   <div className="feed">
     <ul>
       <li className="feature">
-      {feature}
+      {feature.features}
+      {console.log(feature.features)}
       </li>
     </ul>
   </div>
@@ -27,3 +28,5 @@ const Feature= ({feature}) =>(
 
 export default Features;
 
+//onClick{() => {this.changeView("techspecs")}}
+//<button className="switch-view-button" type="submit">TechSpecs</button><br/>
