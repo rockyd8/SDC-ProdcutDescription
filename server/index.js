@@ -31,3 +31,17 @@ app.get('/productdescriptions', function (req, res) {
   });
   //red.end();
 });
+
+
+app.get('/product/:productId', function (req, res) {
+  var productId = req.params.productId;
+  console.log(`GET REQUEST for product Id ${productId}`);
+  database.findOne({productId: productId}, (err, productData) => {
+    if(err){
+      console.log("ERROR:", err);
+    }else{
+      res.status(200).send(productData);
+    }
+  });
+  //red.end();
+});

@@ -23,6 +23,14 @@ class Productdescriptions extends React.Component {
         descriptions: data
       })
     })
+
+    $.get('/productdescriptions',(productData) =>{
+      console.log(productData);
+      this.setState({
+        product: productData
+      })
+    })
+
   }
 
   changeView(){
@@ -35,15 +43,14 @@ class Productdescriptions extends React.Component {
         view:"Features"
       })
     }
-    //this.conponentDidMount();
   }
 
   renderView() {
     const {view} = this.state;
     if(view === "Features"){
-      return <Features data={this.state.descriptions}/>
+      return <Features data={this.state.product}/>
     }else if (view === "TechSpecs"){
-      return <TechSpecs data={this.state.descriptions}/>
+      return <TechSpecs data={this.state.product}/>
     }
   }
 
