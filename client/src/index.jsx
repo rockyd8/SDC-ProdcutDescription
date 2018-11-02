@@ -11,20 +11,30 @@ class Productdescriptions extends React.Component {
     super();
     this.state = {
       view: "Features",
-      descriptions: []
+      descriptions: [],
+      product: []
     }
   }
 
   componentDidMount(){
-    console.log("Mounted");
-    $.get('/productdescriptions',(data) =>{
-      console.log(data[0]);
-      this.setState({
-        descriptions: data
+    let id = window.location.pathname.replace(/\/product\//,'');
+    console.log(id);
+    //if(id){
+      // $.get('/productdescriptions',(data) =>{ //get all the data
+      //   console.log(data[0]);
+      //   this.setState({
+      //     product: data[0]
+      //   })
+      // })
+    // }else{
+      $.get('/product/data/'+ id,(productData) =>{
+        console.log(productData);
+        this.setState({
+          product: productData
+        })
       })
-    })
+    //}
   }
-
   changeView(){
     if(this.state.view === "Features"){
       this.setState({
@@ -35,18 +45,16 @@ class Productdescriptions extends React.Component {
         view:"Features"
       })
     }
-    //this.conponentDidMount();
   }
 
   renderView() {
     const {view} = this.state;
     if(view === "Features"){
-      return <Features data={this.state.descriptions}/>
+      return <Features features={this.state.product.features}/>
     }else if (view === "TechSpecs"){
-      return <TechSpecs data={this.state.descriptions}/>
+      return <TechSpecs techSpecs={this.state.product.techSpecs}/>
     }
   }
-
   render() {
     return(
       <div className="tabs">
