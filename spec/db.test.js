@@ -37,7 +37,7 @@ describe('Database testing for randomly selected prodcut IDs', ()=> {
     it(`Testing if product ${id}'s techSpecs is an array of objects`, () => {
       $.get('/product/data/'+ id,(productData) =>{
         expect(productData.techSpecs).any(Array);
-        expect(productData.techSpecs.types).any(Object);
+        expect(productData.techSpecs.types).any();
       })
     })
   }

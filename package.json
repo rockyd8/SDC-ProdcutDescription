@@ -8,7 +8,7 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "test" : "jest --verbose",
+    "test": "jest --verbose --coverage",
     "start": "nodemon server/index.js",
     "webstart": "webpack -d --watch",
     "db:setup": "node database/seed.js"
@@ -28,10 +28,11 @@
     "@babel/core": "^7.1.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "babel-core": "^6.26.3",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.4",
     "chai": "^4.2.0",
     "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "jest": "^23.6.0",
     "mocha": "^5.2.0",
