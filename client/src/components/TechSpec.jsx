@@ -4,7 +4,7 @@ const TechSpec= ({techSpec}) =>(
   <div className="tech">
     <ul>
       <li className="techSpec">
-        {techSpec && techSpec.types}:{techSpec && techSpec.description}
+        <span id="types">{techSpec && techSpec.types}</span>:<span id="descrip">{techSpec && techSpec.description}</span>
       </li>
     </ul>
   </div>
