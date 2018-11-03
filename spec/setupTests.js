@@ -1,4 +1,8 @@
-import React from 'react';
-import {shallow, mount, render} from 'enzyme';
+//import $ from 'jquery';
+
+const {configure} = require('enzyme');
+const Adapter = require('enzyme-adapter-react-16');
+
+configure({ adapter: new Adapter()});
 
 
