@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest --verbose --coverage",
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
     "webstart": "webpack -d --watch",
     "db:setup": "node database/seed.js"
   },
@@ -20,6 +20,7 @@
     "jquery": "^3.3.1",
     "merge": "^1.2.1",
     "mongoose": "^5.3.6",
+    "normalize-port": "^1.0.0",
     "popper.js": "^1.14.4",
     "react": "^16.6.0",
     "react-dom": "^16.6.0"

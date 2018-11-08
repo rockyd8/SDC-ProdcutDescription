@@ -27,7 +27,7 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      $.get('/product/data/'+ id,(productData) =>{
+      $.get('http://localhost:3003/product/data/'+ id,(productData) =>{
         //console.log(productData);
         this.setState({
           product: productData

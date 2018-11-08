@@ -4,11 +4,17 @@ const path = require('path');
 //const = require('../database/.js');
 const database = require('../database/db.js');
 
-
+var port = normalizePort(process.env.PORT || '8081'
 
 let app = express();
 
-let port = 3003;
+//let port = 3003;
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
