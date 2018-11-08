@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 //const = require('../database/.js');
 const database = require('../database/db.js');
-const normailzePort = require('normalize-port');
+const normalizePort = require('normalize-port');
 
-var port = normalizePort(process.env.PORT || '8081'
+var port = normalizePort(process.env.PORT || '8081');
 
 let app = express();
 
