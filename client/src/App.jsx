@@ -4,7 +4,9 @@ import $ from 'jquery';
 
 import Features from './components/Features.jsx';
 import TechSpecs from './components/TechSpecs.jsx';
+import normalizePort from 'normalize-port';
 
+var port = normalizePort(process.env.PORT || '8081');
 
 class Productdescriptions extends React.Component {
   constructor() {
@@ -27,7 +29,7 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      $.get('http://localhost:3003/product/data/'+ id,(productData) =>{
+      $.get(`http://localhost:${port}/product/data/`+ id,(productData) =>{
         //console.log(productData);
         this.setState({
           product: productData
