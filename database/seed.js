@@ -112,7 +112,7 @@ const sampleDescriptions = [{"productName":"Dactylospora Lichen","productId":1,"
 
 const insertSampleDescriptions = function() {
   Description.create(sampleDescriptions)
-    .then(() => db.disconnect());
+    //.then(() => db.disconnect());
 };
 
 insertSampleDescriptions();

@@ -9,7 +9,7 @@ var port = normalizePort(process.env.PORT || '8081');
 
 let app = express();
 
-//let port = 3003;
+
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -50,7 +50,10 @@ app.get('/product/data/:productId', function (req, res) {
   database.findOne({productId: productId}, (err, productData) => {
     if(err){
       console.log("ERROR:", err);
+      console.log("TESTING FOR ERRORS");
     }else{
+      console.log("GOT DATA");
+      console.log(productData);
       res.status(200).send(productData);
     }
   });
