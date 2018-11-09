@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
+import axios from 'axios';
 
 import Features from './components/Features.jsx';
 import TechSpecs from './components/TechSpecs.jsx';
@@ -29,12 +29,17 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      $.get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id,(productData) =>{
-        //console.log(productData);
+      axios
+      .get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
+      .then(res => {
+        const data = res.data;
         this.setState({
           product: productData
-        })
+        });
       })
+      .catch(err => {
+        console.log("Error, Client Side Get Request", err);
+      });
     //}
   }
   changeView(){

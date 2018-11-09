@@ -36,7 +36,6 @@ app.get('/productdescriptions', function (req, res) {
       res.status(200).send(data);
     }
   });
-  //red.end();
 });
 
 app.get('/product/:productId', function (req, res) {
@@ -50,12 +49,10 @@ app.get('/product/data/:productId', function (req, res) {
   database.findOne({productId: productId}, (err, productData) => {
     if(err){
       console.log("ERROR:", err);
-      console.log("TESTING FOR ERRORS");
     }else{
       console.log("GOT DATA");
-      console.log(productData);
+      //console.log(productData);
       res.status(200).send(productData);
     }
   });
-  //red.end();
 });
