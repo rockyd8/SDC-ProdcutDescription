@@ -29,7 +29,7 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      $.get(`http://localhost:${port}/product/data/`+ id,(productData) =>{
+      $.get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id,(productData) =>{
         //console.log(productData);
         this.setState({
           product: productData
@@ -59,12 +59,15 @@ class Productdescriptions extends React.Component {
   }
   render() {
     return(
+      <div>
+      <p className="nittyGritty"><strong>The nitty gritty</strong></p>
       <div className="tabs">
       <button id="switchState"
         onClick={() => this.changeView()}>
         {this.state.view}
       </button>
       {this.renderView()}
+      </div>
       </div>
     );
   }
