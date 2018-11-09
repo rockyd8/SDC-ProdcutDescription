@@ -59,6 +59,7 @@ class Productdescriptions extends React.Component {
   }
   render() {
     return(
+      <p><strong>The nitty gritty</strong></p>
       <div className="tabs">
       <button id="switchState"
         onClick={() => this.changeView()}>
