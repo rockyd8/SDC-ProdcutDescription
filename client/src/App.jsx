@@ -59,6 +59,7 @@ class Productdescriptions extends React.Component {
   }
   render() {
     return(
+      <div>
       <p className="nittyGritty"><strong>The nitty gritty</strong></p>
       <div className="tabs">
       <button id="switchState"
@@ -66,6 +67,7 @@ class Productdescriptions extends React.Component {
         {this.state.view}
       </button>
       {this.renderView()}
+      </div>
       </div>
     );
   }
