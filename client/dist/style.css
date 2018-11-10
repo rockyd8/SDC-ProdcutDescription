@@ -22,6 +22,8 @@ body {
 
 .techSpec {
   font-size: 1.2rem;
+  width: 800px;
+  margin: auto;
 }
 
 .techSpec:nth-child(odd) {
@@ -30,18 +32,10 @@ body {
 
 #types {
   font-weight: bold;
-  width: 800px;
-  margin: auto;
-}
-
-#descrip {
-  width: 600px;
-  margin: auto;
 }
 
 #switchState{
-  margin:auto;
-  width: 850px;
+  margin-left: 10%;
   display: inline-block;
   border:1px solid #5C5C56;
   color: #030200;
@@ -60,7 +54,6 @@ body {
   background-image: linear-gradient(to top, #E6E8C5, #B3B39A);
   background-color: #F3FCF2;
 }
-
 #switchState:hover, .switchState:active{
   border:1px solid #967D09;
   color: #705D07;
