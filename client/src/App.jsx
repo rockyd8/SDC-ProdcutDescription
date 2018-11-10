@@ -29,17 +29,16 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      axios
-      .get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
-      .then(res => {
-        const productData = res.data;
-        this.setState({
-          product: productData
-        });
-      })
-      .catch(err => {
-        console.log("Error, Client Side Get Request", err);
-      });
+      fetch('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
+        .then(res => res.json())
+        .then(productData =>{
+          this.setState({
+            product: productData
+          })
+        })
+        .catch(err => {
+          console.log("Error with server side fetch request",err);
+        })
     //}
   }
   changeView(){
