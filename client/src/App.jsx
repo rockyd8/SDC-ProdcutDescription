@@ -32,7 +32,7 @@ class Productdescriptions extends React.Component {
       axios
       .get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
       .then(res => {
-        const data = res.data;
+        const productData = res.data;
         this.setState({
           product: productData
         });
