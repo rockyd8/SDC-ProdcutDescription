@@ -5,8 +5,14 @@ body {
 #title{
   font-weight: 400;
 }
+
 .features {
   font-size: 1.2rem;
+}
+
+.feature {
+  width: 800px;
+  margin: auto;
 }
 
 .nittyGritty {
@@ -16,6 +22,12 @@ body {
 
 .techSpec {
   font-size: 1.2rem;
+  width: 800px;
+  margin: auto;
+}
+
+.techSpec:nth-child(odd) {
+    background-color: #F9F9F9;
 }
 
 #types {
