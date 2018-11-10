@@ -15,9 +15,9 @@
     "db:setup": "node database/seed.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "jquery": "^3.3.1",
     "merge": "^1.2.1",
     "mongoose": "^5.3.6",
     "normalize-port": "^1.0.0",
