@@ -11,7 +11,7 @@ body {
 }
 
 .feature {
-  width: 800px;
+  width: 400px;
   margin: auto;
 }
 
@@ -22,7 +22,7 @@ body {
 
 .techSpec {
   font-size: 1.2rem;
-  width: 800px;
+  width: 400px;
   margin: auto;
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 #switchState{
-  margin-left: 10%;
+  margin-left: 45%;
   display: inline-block;
   border:1px solid #5C5C56;
   color: #030200;
