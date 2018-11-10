@@ -29,9 +29,11 @@ class Productdescriptions extends React.Component {
       //   })
       // })
     // }else{
-      fetch('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
-        .then(res => res.json())
+        axios
+        .get('http://fectrail-env.k3wc6evxm5.us-east-1.elasticbeanstalk.com/product/data/' + id)
+        //.then(res => res.json())
         .then(productData =>{
+          var productData = productData.data;
           this.setState({
             product: productData
           })
