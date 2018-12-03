@@ -1,103 +1,128 @@
-const cassandra = require('cassandra-driver');
-const faker = require('faker');
-// const cassandraSchema = require('./cassandraSchema.js');
+const faker = require('faker')
+const fs = require('fs')
+const path = require('path')
+const { Client } = require('pg')
 
-// Create our client
-const client = new cassandra.Client({ contactPoints: ['localhost'], localDataCenter: 'datacenter1' });
-
-const KEYSPACE_NAME = "mykeyspace"
+const recordsToInsert = 10000000
+// const recordsToInsert = 1000
+const batchSize = recordsToInsert * 0.1
+const numBatches = 10
+const recordsPerBatch = recordsToInsert / numBatches
+console.log(recordsPerBatch);
+const client = new Client({
+    user: "RockysMac",
+    password: "password",
+    database: "mydatabase"
+})
 
 function printError(e) {
     console.log(e.msg || e.message || e.Message || e)
 }
 
-function createKeyspace(cassClient) {
-    const query = `
-        CREATE KEYSPACE IF NOT EXISTS ${KEYSPACE_NAME}
-        WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
-    `
-    return cassClient.execute(query)
-}
-
-function useKeyspace(cassClient) {
-    const query = `USE ${KEYSPACE_NAME}`
-    return cassClient.execute(query)
-}
-
-function createUsersTable(cassClient) {
+function createTables(pgClient) {
     const query = `
         CREATE TABLE IF NOT EXISTS Description (
-            productName text,
-            productId int PRIMARY KEY,
-            features text,
-            techspecs techspecs
+            productId SERIAL PRIMARY KEY,
+            productName TEXT NOT NULL,
+            features TEXT NOT NULL,
+            types TEXT NOT NULL,
+            description TEXT NOT NULL,
+            measurement BOOLEAN NOT NULL
         );
     `
-    return cassClient.execute(query)
+    return pgClient.query(query)
 }
 
-function createType(cassClient) {
-    const query = `
-        CREATE TYPE IF NOT EXISTS techspecs (
-        types text,
-        description text,
-        measurement boolean
-        );
-    `
-    return cassClient.execute(query)
-}
-
-function insertBatchData(cassClient, numBatches, batchNo, batchSize) {
-    const query = `INSERT INTO Description (productName, productId, features, techspecs) VALUES (?, ?, ?, ?)`
-
-    return new Promise(function(resolve, reject) {
-        if (batchNo % 200 == 0 || batchNo == 1) {
-            console.log("Executing batch " + batchNo)
-        }
-
-        // generate the data for this batch
-        let queryList = []
-        for (currentRecord = 0; currentRecord < batchSize; currentRecord++) {
-            let uniqueId = `${batchNo}/${currentRecord}`
-            queryList.push({
-                query,
-                params: [ faker.commerce.productName(), batchSize * batchNo + currentRecord, faker.lorem.sentence(), { types: faker.lorem.word(), description: faker.lorem.sentence(), measurement: faker.random.boolean() } ]
-            })
-        }
-
-        // Insert the batch into cassandra
-        cassClient.batch(queryList, { prepare: true })
-            .then(() => {
-                // If we haven't inserted all batches yet, do the next batch
-                if (batchNo < numBatches) {
-                    resolve(insertBatchData(cassClient, numBatches, batchNo + 1, batchSize))
-                } else {
-                    resolve("done")
-                }
-            })
+function openSeedDataFile(fileName) {
+    return new Promise(function(resolve, reject){
+        let wstream = fs.createWriteStream(fileName)
+        wstream.on("open", function() {
+            resolve(wstream)
+        })
     })
+}
+
+async function generateSeedData(seedFileFullPath, recordsToInsert, notificationMod) {
+    console.log("No seed data found. Generating it.")
+    let wstream = await openSeedDataFile(seedFileFullPath)
+    wstream.write("productName, features, types, description, measurement\n")
+    for(recordId = 1; recordId <= recordsPerBatch; recordId++) {
+        // if (recordId % notificationMod == 0 || recordId == 1) {
+        //     console.log(`Generating record #${recordId}`)
+        // }
+        let values = [
+            faker.commerce.productName(),
+            faker.lorem.sentence(),
+            faker.lorem.word(),
+            faker.lorem.sentence(),
+            faker.random.boolean()
+        ]
+        wstream.write(values.join(",") + "\n")
+    }
+    await closeFile(wstream)
+    console.log("Finished generating seed data.")
 }
 
 /**
  * Kick off a recursive batch insert driven by a promise chain
  *
- * @param {} cassClient
+ * @param {} pgClient
  */
-function seedData(cassClient) {
-    const numBatches = 50000
-    const batchSize = 200
-    return insertBatchData(cassClient, numBatches, 1, batchSize)
+async function seedData(pgClient) {
+    const notificationMod = recordsToInsert * 0.05
+
+    const seedFileFullPath = path.resolve("./pgseeddata.csv")
+
+    for (i = 1; i <= numBatches; i++) {
+        console.log(`Inserting seed data for batch ${i}`)
+        if (fs.existsSync(seedFileFullPath)) {
+            fs.unlinkSync(seedFileFullPath)
+        }
+
+        await generateSeedData(seedFileFullPath, recordsToInsert, notificationMod)
+
+        await pgClient.query(`
+            COPY description(productName, features, types, description, measurement)
+            FROM '${seedFileFullPath}' WITH DELIMITER AS ',' CSV HEADER;`
+        )
+    }
+
+    // for(recordId = 1; recordId <= recordsToInsert; recordId++) {
+    //     if (recordId % notificationMod == 0 || recordId == 1) {
+    //         console.log(`Inserting record #${recordId}`)
+    //     }
+    //     let values = [
+    //         faker.commerce.productName(),
+    //         faker.lorem.sentence(),
+    //         faker.lorem.word(),
+    //         faker.lorem.sentence(),
+    //         faker.random.boolean()
+    //     ]
+    //     await pgClient.query(insertQuery, values)
+    // }
 }
 
-console.log("Seeding Cassandra now...")
-console.time("seeding")
-createKeyspace(client)
-    .then(() => useKeyspace(client))
-    .then(() => createType(client))
-    .then(() => createUsersTable(client))
-    .then(() => seedData(client))
-    .then(function() {
-        console.log("Finished!")
-        console.timeEnd("seeding")
+function closeFile(wstream) {
+    return new Promise(function(resolve, reject){
+        wstream.on("close", function() {
+            resolve(wstream)
+        })
+        wstream.end()
     })
+}
+
+async function startApp() {
+    await client.connect()
+    console.log("Seeding pg now...")
+    console.time("seeding")
+    createTables(client)
+        .then(() => seedData(client))
+        .then(function() {
+            console.log("Finished!")
+            console.timeEnd("seeding")
+        })
+    .catch(printError)
+}
+
+startApp()
     .catch(printError)
